@@ -1,0 +1,26 @@
+{% extends 'layout_detail.html' %}
+{% block content %}
+{% for post in stream %}
+
+<!-- Single Content -->
+        <div class="center-relative" id="content">
+            <div class="single-post-wrapper content-1070 center-relative">
+
+                <article class="center-relative">
+                    <h1 class="entry-title">
+                        <a href="{{ url_for('view_post', post_id=post.id) }}"> {{ post.title }}</a>
+                    </h1>
+                    <div class="center-relative">
+                        <div class="cat-links">
+                            <ul>
+                                <li><a href="#">Tag</a></li>
+                            </ul>
+                        </div>
+                        <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
+                    </div>
+                </article>
+            </div>
+        </div>
+{% endfor %}
+
+{% endblock %}

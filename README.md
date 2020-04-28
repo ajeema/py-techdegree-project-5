@@ -1,2 +1,2 @@
-# techdegree-project-5
+# flask-social-network
  
