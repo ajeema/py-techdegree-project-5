@@ -13,11 +13,16 @@
        <div class="cat-links">
          <ul>
            <li>
-             <a href="{{ url_for('view_post', post_id=post.id) }}">Art</a>
+             <a href="{{ url_for('view_post', post_id=post.id) }}">tags:  {{ post.tags }}</a>
            </li>
            <li>
              <a href="{{ url_for('edit', post_id=post.id) }}">Edit post</a>
            </li>
+           <li>            <div class="edit">
+                <p>
+                <a href="{{ url_for('delete', post_id=post.id) }}" onclick="return confirm('Are you sure?')">Delete Entry</a>
+</p>
+            </div></li>
          </ul>
        </div>
        <time data-time="{{ post.timestamp }}" class="entry-date published" datetime="{{ post.timestamp.strftime('%Y-%m-%d') }}">{{ post.timestamp.strftime('%Y-%m-%d') }}</time>

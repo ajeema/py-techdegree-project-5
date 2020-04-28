@@ -3,6 +3,7 @@
 <h2>Edit Entry</h2>
 
 {% from "_formhelpers.html" import render_field %}
+
 <form method=post action="">
     <dl>
         {{ render_field(form.title) }}
@@ -11,5 +12,6 @@
         {{ render_field(form.resources) }}
         {{ render_field(form.tags) }}
     </dl>
+    {{ form.csrf_token }}
     <button type="submit" id="submit">Update!</button>
 </form>

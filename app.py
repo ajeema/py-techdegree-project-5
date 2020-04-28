@@ -103,20 +103,33 @@ def post():
     return render_template("new.html", form=form)
 
 
-@app.route('/edit/<int:post_id>', methods=('GET', 'POST'))
-@login_required
-def edit(post_id):
-    edit = models.Post.select().where(models.Post.id == post_id).get()
-    form = forms.PostForm(obj=edit)
-    form.populate_obj(edit)
+@app.route('/entries/edit/<post_id>', methods=['GET', 'POST'])
+def edit(post_id=None):
+    post = models.Post.get(models.Post.id == post_id)
+    form = forms.PostForm()
     if form.validate_on_submit():
-        new_content = form.content.data.strip()
-        new_finished = form.finished.data
-        q = models.Post.update(content=new_content, finished=new_finished).where(models.Post.id == post_id)
-        q.execute()
-        flash("Post updated", "success")
+        models.Post.update(
+            title=form.title.data.strip(),
+            time_spent=form.time_spent.data,
+            content=form.content.data.strip(),
+            resources=form.resources.data.strip(),
+            tags = form.tags.data.strip()
+            ).where(models.Post.id == post_id).execute()
+        flash("Entry saved!", 'success')
         return redirect(url_for('index'))
+    form.title.data = post.title
+    form.time_spent.data = post.time_spent
+    form.content.data = post.content
+    form.resources.data = post.resources
+    form.tags.data = post.tags
     return render_template('edit.html', form=form)
+
+
+@app.route('/entries/delete/<post_id>')
+def delete(post_id=None):
+    models.Post.get(models.Post.id == post_id).delete_instance()
+    flash("Deleted!", 'success')
+    return redirect(url_for('index'))
 
 
 @app.route("/post/<int:post_id>")
@@ -136,7 +149,7 @@ if __name__ == "__main__":
     models.initialize()
     try:
         models.User.create_user(
-            username="aaronjorgensen",
+            username="dundermiflin",
             email="aaron@ajeema.com",
             password="password",
             admin=True,
