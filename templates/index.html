@@ -15,6 +15,9 @@
            <li>
              <a href="{{ url_for('view_post', post_id=post.id) }}">Art</a>
            </li>
+           <li>
+             <a href="{{ url_for('edit', post_id=post.id) }}">Edit post</a>
+           </li>
          </ul>
        </div>
        <time data-time="{{ post.timestamp }}" class="entry-date published" datetime="{{ post.timestamp.strftime('%Y-%m-%d') }}">{{ post.timestamp.strftime('%Y-%m-%d') }}</time>

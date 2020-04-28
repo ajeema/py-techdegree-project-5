@@ -1,5 +1,5 @@
 import datetime
-from slugify import slugify
+
 
 from flask_bcrypt import generate_password_hash
 from flask_login import UserMixin
@@ -27,21 +27,6 @@ class User(UserMixin, Model):
             (Post.user << self.following()) | (Post.user == self)
         )
 
-    def following(self):
-        """The users that we are following."""
-        return (
-            User.select()
-            .join(Relationship, on=Relationship.to_user)
-            .where(Relationship.from_user == self)
-        )
-
-    def followers(self):
-        """Get users following the current user"""
-        return (
-            User.select()
-            .join(Relationship, on=Relationship.from_user)
-            .where(Relationship.to_user == self)
-        )
 
     @classmethod
     def create_user(cls, username, email, password, admin=False):
@@ -64,33 +49,15 @@ class Post(Model):
     title = TextField()
     time_spent = IntegerField()
     resources = TextField()
+    tags = CharField(default = "")
 
     class Meta:
         database = DATABASE
         order_by = ("-timestamp",)
 
 
-class Relationship(Model):
-    from_user = ForeignKeyField(User, backref="relationships")
-    to_user = ForeignKeyField(User, backref="related_to")
-
-    class Meta:
-        database = DATABASE
-        indexes = ((("from_user", "to_user"), True),)
-
-
-# class SlugModel(Base):
-#     name = Column(String)
-#     slug = Column(String)
-#
-#     @staticmethod
-#     def slugify(target, value, oldvalue, initiator):
-#         if value and (not target.slug or value != oldvalue):
-#             target.slug = slugify(value)
-#
-# event.listen(SlugModel.name, 'set', SlugModel.slugify, retval=False)
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables([User, Post, Relationship], safe=True)
+    DATABASE.create_tables([User, Post], safe=True)
     DATABASE.close()

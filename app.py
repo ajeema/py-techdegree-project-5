@@ -94,14 +94,29 @@ def post():
             content=form.content.data.strip(),
             title=form.title.data,
             time_spent=form.time_spent.data,
-            resources = form.resources.data
+            resources = form.resources.data,
+            tags=form.tags.data
+
         )
         flash("Journal Entry done!", "success")
         return redirect(url_for("index"))
     return render_template("new.html", form=form)
 
 
-
+@app.route('/edit/<int:post_id>', methods=('GET', 'POST'))
+@login_required
+def edit(post_id):
+    edit = models.Post.select().where(models.Post.id == post_id).get()
+    form = forms.PostForm(obj=edit)
+    form.populate_obj(edit)
+    if form.validate_on_submit():
+        new_content = form.content.data.strip()
+        new_finished = form.finished.data
+        q = models.Post.update(content=new_content, finished=new_finished).where(models.Post.id == post_id)
+        q.execute()
+        flash("Post updated", "success")
+        return redirect(url_for('index'))
+    return render_template('edit.html', form=form)
 
 
 @app.route("/post/<int:post_id>")
