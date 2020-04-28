@@ -9,6 +9,9 @@
                 <article class="center-relative">
                     <h1 class="entry-title">
                         {{ post.title }}
+                        {% if current_user.is_authenticated() %}
+                        <a href="{{ url_for('index') }}>"><i class="fa fa-edit"></i></a>
+                        {% endif %}
                     </h1>
                     <div class="post-info content-1070 center-relative">
                         <div class="cat-links">
