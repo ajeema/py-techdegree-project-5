@@ -10,7 +10,6 @@
             <h2 class="entry-title">
                 <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
             </h2>
-            <h6>{{ post.content |truncate(9) }}</h6>
             <div class="cat-links">
                 <ul>
                     <li>
@@ -33,6 +32,7 @@
                   datetime="{{ post.timestamp.strftime('%Y-%m-%d') }}">{{ post.timestamp.strftime('%Y-%m-%d') }}
             </time>
         </div>
+        <h6>{{ post.content |truncate(30) }}</h6>
     </div>
 </article>
 {% endfor %}

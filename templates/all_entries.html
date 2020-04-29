@@ -10,6 +10,7 @@
             <h1 class="entry-title">
                 <a href="{{ url_for('view_post', post_id=post.id) }}"> {{ post.title }}</a>
             </h1>
+
             <div class="center-relative">
                 <div class="cat-links">
                     <ul>
@@ -18,6 +19,7 @@
 
                 <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
             </div>
+            <h6>{{ post.content |truncate(15) }}</h6>
         </article>
     </div>
 </div>
