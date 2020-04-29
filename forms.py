@@ -1,10 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, IntegerField
-from wtforms.validators import (
-    DataRequired,
-    Email
-)
-
+from wtforms.validators import DataRequired, Email
 
 
 class LoginForm(FlaskForm):
@@ -13,12 +9,8 @@ class LoginForm(FlaskForm):
 
 
 class PostForm(FlaskForm):
-    title = StringField("Enter Title", validators = [DataRequired()])
-    time_spent = IntegerField('How many Hours?', validators = [DataRequired()])
+    title = StringField("Enter Title", validators=[DataRequired()])
+    time_spent = IntegerField("How many Hours?", validators=[DataRequired()])
     content = TextAreaField("Enter text...", validators=[DataRequired()])
     resources = TextAreaField("Resources...", validators=[DataRequired()])
-    tags = StringField('Tags (seperate by a comma)', validators = [DataRequired()])
-
-
-
-
+    tags = StringField("Tags (seperate by a comma)", validators=[DataRequired()])

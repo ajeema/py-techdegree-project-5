@@ -27,7 +27,6 @@ class User(UserMixin, Model):
             (Post.user << self.following()) | (Post.user == self)
         )
 
-
     @classmethod
     def create_user(cls, username, email, password, admin=False):
         try:
@@ -49,12 +48,11 @@ class Post(Model):
     title = TextField()
     time_spent = IntegerField()
     resources = TextField()
-    tags = CharField(default = "")
+    tags = CharField(default="")
 
     class Meta:
         database = DATABASE
         order_by = ("-timestamp",)
-
 
 
 def initialize():

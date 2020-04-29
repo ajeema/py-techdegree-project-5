@@ -78,6 +78,7 @@ def index():
     stream = models.Post.select().limit(4)
     return render_template("index.html", stream=stream)
 
+
 @app.route("/entries")
 def entries():
     stream = models.Post.select().limit(3)
@@ -94,16 +95,15 @@ def post():
             content=form.content.data.strip(),
             title=form.title.data,
             time_spent=form.time_spent.data,
-            resources = form.resources.data,
-            tags=form.tags.data
-
+            resources=form.resources.data,
+            tags=form.tags.data,
         )
         flash("Journal Entry done!", "success")
         return redirect(url_for("index"))
     return render_template("new.html", form=form)
 
 
-@app.route('/entries/edit/<post_id>', methods=['GET', 'POST'])
+@app.route("/entries/edit/<post_id>", methods=["GET", "POST"])
 def edit(post_id=None):
     post = models.Post.get(models.Post.id == post_id)
     form = forms.PostForm()
@@ -113,23 +113,23 @@ def edit(post_id=None):
             time_spent=form.time_spent.data,
             content=form.content.data.strip(),
             resources=form.resources.data.strip(),
-            tags = form.tags.data.strip()
-            ).where(models.Post.id == post_id).execute()
-        flash("Entry saved!", 'success')
-        return redirect(url_for('index'))
+            tags=form.tags.data.strip(),
+        ).where(models.Post.id == post_id).execute()
+        flash("Entry saved!", "success")
+        return redirect(url_for("index"))
     form.title.data = post.title
     form.time_spent.data = post.time_spent
     form.content.data = post.content
     form.resources.data = post.resources
     form.tags.data = post.tags
-    return render_template('edit.html', form=form)
+    return render_template("edit.html", form=form)
 
 
-@app.route('/entries/delete/<post_id>')
+@app.route("/entries/delete/<post_id>")
 def delete(post_id=None):
     models.Post.get(models.Post.id == post_id).delete_instance()
-    flash("Deleted!", 'success')
-    return redirect(url_for('index'))
+    flash("Deleted!", "success")
+    return redirect(url_for("index"))
 
 
 @app.route("/post/<int:post_id>")

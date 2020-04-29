@@ -3,31 +3,36 @@
 {% block content %}
 {% for post in stream %}
 
-  <!-- Main Content -->
- <article id="post-3" class="blog-item-holder">
-   <div class="entry-content relative">
-     <div class="content-1170 center-relative">
-       <h2 class="entry-title">
-         <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
-       </h2>
-       <div class="cat-links">
-         <ul>
-           <li>
-             <a href="{{ url_for('view_post', post_id=post.id) }}">tags:  {{ post.tags }}</a>
-           </li>
-           <li>
-             <a href="{{ url_for('edit', post_id=post.id) }}">Edit post</a>
-           </li>
-           <li>            <div class="edit">
-                <p>
-                <a href="{{ url_for('delete', post_id=post.id) }}" onclick="return confirm('Are you sure?')">Delete Entry</a>
-</p>
-            </div></li>
-         </ul>
-       </div>
-       <time data-time="{{ post.timestamp }}" class="entry-date published" datetime="{{ post.timestamp.strftime('%Y-%m-%d') }}">{{ post.timestamp.strftime('%Y-%m-%d') }}</time>
-     </div>
-   </div>
+<!-- Main Content -->
+<article id="post-3" class="blog-item-holder">
+    <div class="entry-content relative">
+        <div class="content-1170 center-relative">
+            <h2 class="entry-title">
+                <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
+            </h2>
+            <div class="cat-links">
+                <ul>
+                    <li>
+                        <a href="{{ url_for('view_post', post_id=post.id) }}">tags: {{ post.tags }}</a>
+                    </li>
+                    <li>
+                        <a href="{{ url_for('edit', post_id=post.id) }}">Edit post</a>
+                    </li>
+                    <li>
+                        <div class="edit">
+                            <p>
+                                <a href="{{ url_for('delete', post_id=post.id) }}"
+                                   onclick="return confirm('Are you sure?')">Delete Entry</a>
+                            </p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <time data-time="{{ post.timestamp }}" class="entry-date published"
+                  datetime="{{ post.timestamp.strftime('%Y-%m-%d') }}">{{ post.timestamp.strftime('%Y-%m-%d') }}
+            </time>
+        </div>
+    </div>
 </article>
 {% endfor %}
 {% endblock %}

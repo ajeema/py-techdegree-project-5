@@ -3,41 +3,41 @@
 {% for post in stream %}
 
 <!-- Single Content -->
-        <div class="site-content center-relative" id="content">
-            <div class="single-post-wrapper content-1070 center-relative">
+<div class="site-content center-relative" id="content">
+    <div class="single-post-wrapper content-1070 center-relative">
 
-                <article class="center-relative">
-                    <h1 class="entry-title">
-                        {{ post.title }}
-                        {% if current_user.is_authenticated() %}
-                        <a href="{{ url_for('edit', post_id=post.id) }}"><i class="fa fa-edit"></i></a>
-                        {% endif %}
-                    </h1>
-                    <div class="post-info content-1070 center-relative">
-                        <div class="cat-links">
-                            <ul>
-                                <li><a href="#">{{ post.tags }}</a></li>
-                            </ul>
-                        </div>
-                        <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
-                        <div class="clear"></div>
-                    </div>
-
-                    <div class="entry-content">
-                        <div class="content-wrap content-1070 center-relative">
-                            <p>{{ post.content }}</p>
-                            <br>
-                            <div class="clear"></div>
-                        </div>
-                        <div class="content-wrap content-1070 center-relative ">
-                            <p>Resources: {{ post.resources }}</p>
-                            <p>Time Spent: {{ post.time_spent }}  hours</p>
-                        </div>
-                    </div>
-                    <div class="clear"></div>
-                </article>
+        <article class="center-relative">
+            <h1 class="entry-title">
+                {{ post.title }}
+                {% if current_user.is_authenticated() %}
+                <a href="{{ url_for('edit', post_id=post.id) }}"><i class="fa fa-edit"></i></a>
+                {% endif %}
+            </h1>
+            <div class="post-info content-1070 center-relative">
+                <div class="cat-links">
+                    <ul>
+                        <li><a href="#">{{ post.tags }}</a></li>
+                    </ul>
+                </div>
+                <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
+                <div class="clear"></div>
             </div>
-        </div>
+
+            <div class="entry-content">
+                <div class="content-wrap content-1070 center-relative">
+                    <p>{{ post.content }}</p>
+                    <br>
+                    <div class="clear"></div>
+                </div>
+                <div class="content-wrap content-1070 center-relative ">
+                    <p>Resources: {{ post.resources }}</p>
+                    <p>Time Spent: {{ post.time_spent }} hours</p>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </article>
+    </div>
+</div>
 
 
 {% endfor %}
