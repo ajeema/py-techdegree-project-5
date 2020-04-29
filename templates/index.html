@@ -10,6 +10,7 @@
             <h2 class="entry-title">
                 <a href="{{ url_for('view_post', post_id=post.id) }}">{{ post.title }}</a>
             </h2>
+            <h6>{{ post.content |truncate(9) }}</h6>
             <div class="cat-links">
                 <ul>
                     <li>
@@ -36,4 +37,3 @@
 </article>
 {% endfor %}
 {% endblock %}
-

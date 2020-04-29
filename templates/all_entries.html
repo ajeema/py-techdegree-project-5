@@ -13,9 +13,9 @@
             <div class="center-relative">
                 <div class="cat-links">
                     <ul>
-                        <li><a href="#">Tag</a></li>
-                    </ul>
+                        <li><a href="#">{{ post.tags }}</a></li>
                 </div>
+
                 <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
             </div>
         </article>
@@ -24,3 +24,4 @@
 {% endfor %}
 
 {% endblock %}
+
