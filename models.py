@@ -1,4 +1,5 @@
 import datetime
+import regex as re
 
 
 from flask_bcrypt import generate_password_hash
@@ -46,9 +47,19 @@ class Post(Model):
     user = ForeignKeyField(User, backref="entries")
     content = TextField()
     title = TextField()
+    slug = CharField()
     time_spent = IntegerField()
     resources = TextField()
     tags = CharField(default="")
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = re.sub('[^\w]+', '-', self.title.lower())
+        ret = super(Post, self).save(*args, **kwargs)
+
+        # Store search content.
+        return ret
+
 
     class Meta:
         database = DATABASE

@@ -13,4 +13,4 @@ class PostForm(FlaskForm):
     time_spent = IntegerField("How many Hours?", validators=[DataRequired()])
     content = TextAreaField("Enter text...", validators=[DataRequired()])
     resources = TextAreaField("Resources...", validators=[DataRequired()])
-    tags = StringField("Tags (seperate by a comma)", validators=[DataRequired()])
+    tags = StringField('Tags', description="Separate Multiple tags with commas.")

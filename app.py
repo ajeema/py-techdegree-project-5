@@ -1,3 +1,4 @@
+# Credit: https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/ for slug field help.
 from flask import Flask, g, render_template, flash, redirect, url_for, abort
 from flask_bcrypt import check_password_hash
 from flask_login import (
@@ -103,9 +104,9 @@ def post():
     return render_template("new.html", form=form)
 
 
-@app.route("/entries/edit/<post_id>", methods=["GET", "POST"])
-def edit(post_id=None):
-    post = models.Post.get(models.Post.id == post_id)
+@app.route("/entries/edit/<slug>", methods=["GET", "POST"])
+def edit(slug=None):
+    post = models.Post.get(models.Post.slug == slug)
     form = forms.PostForm()
     if form.validate_on_submit():
         models.Post.update(
@@ -114,7 +115,7 @@ def edit(post_id=None):
             content=form.content.data.strip(),
             resources=form.resources.data.strip(),
             tags=form.tags.data.strip(),
-        ).where(models.Post.id == post_id).execute()
+        ).where(models.Post.slug == slug).execute()
         flash("Entry saved!", "success")
         return redirect(url_for("index"))
     form.title.data = post.title
@@ -125,16 +126,16 @@ def edit(post_id=None):
     return render_template("edit.html", form=form)
 
 
-@app.route("/entries/delete/<post_id>")
-def delete(post_id=None):
-    models.Post.get(models.Post.id == post_id).delete_instance()
+@app.route("/entries/delete/<slug>")
+def delete(slug=None):
+    models.Post.get(models.Post.slug == slug).delete_instance()
     flash("Deleted!", "success")
     return redirect(url_for("index"))
 
 
-@app.route("/post/<int:post_id>")
-def view_post(post_id):
-    posts = models.Post.select().where(models.Post.id == post_id)
+@app.route("/post/<slug>")
+def view_post(slug=None):
+    posts = models.Post.select().where(models.Post.slug == slug)
     if posts.count() == 0:
         abort(404)
     return render_template("detail.html", stream=posts)
