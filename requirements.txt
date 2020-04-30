@@ -5,6 +5,8 @@ flask-peewee==3.0.3
 Flask-WTF==0.14.3
 Jinja2==2.11.1
 lazy-object-proxy==1.4.3
+regex==2020.4.4
+requests==2.23.0
 slugify==0.0.1
 SQLAlchemy==1.3.16
 sqlparse==0.3.1
