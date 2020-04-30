@@ -57,7 +57,6 @@ class Post(Model):
             self.slug = re.sub('[^\w]+', '-', self.title.lower())
         ret = super(Post, self).save(*args, **kwargs)
 
-        # Store search content.
         return ret
 
 

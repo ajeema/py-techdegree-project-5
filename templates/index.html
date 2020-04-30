@@ -13,7 +13,10 @@
             <div class="cat-links">
                 <ul>
                     <li>
-                        <a href="{{ url_for('view_post', slug=post.slug) }}">tags: {{ post.tags }}</a>
+                         {% set tags = post.tags.split() %}
+                        {% for tag in tags %}
+                        <a href="/entries/tag/{{tag}}">{{  tag.strip(',')  }}</a>
+                        {% endfor %}
                     </li>
                     <li>
                         <a href="{{ url_for('edit', slug=post.slug) }}">Edit post</a>
@@ -34,6 +37,7 @@
         </div>
         <h6>{{ post.content |truncate(30) }}</h6>
     </div>
+
 </article>
 {% endfor %}
 {% endblock %}
