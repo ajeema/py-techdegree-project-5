@@ -145,9 +145,10 @@ def view_post(slug=None):
 def not_found(error):
     return render_template("404.html"), 404
 
+
 @app.route("/entries/tags/{{tag}}")
 def tag(tags=None):
-    return render_template("tag.html", tags = tags)
+    return render_template("tag.html", tags=tags)
 
 
 if __name__ == "__main__":
