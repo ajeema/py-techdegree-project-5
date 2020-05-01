@@ -21,6 +21,17 @@
                         <a href="/entries/tags/{{tag}}">{{  tag  }}</a>
                         {% endfor %}
                         </li>
+                                   <li>
+                        <a href="{{ url_for('edit', slug=post.slug) }}">Edit post</a>
+                    </li>
+                    <li>
+                        <div class="edit">
+                            <p>
+                                <a href="{{ url_for('delete', slug=post.slug) }}"
+                                   onclick="return confirm('Are you sure?')">Delete Entry</a>
+                            </p>
+                        </div>
+                    </li>
                     </ul>
                 </div>
                 <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
