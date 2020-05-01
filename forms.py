@@ -11,8 +11,9 @@ class LoginForm(FlaskForm):
 
 def validate_title(FlaskForm, field):
     import models
-    if field.data == models.Post.get(title=field.data):
-        raise ValidationError(u"OOPS...That Title is taken!!!")
+    post = models.Post.get(title=field.data)
+    if field.data == post.title:
+        raise ValidationError(u"OOPS...That Title '{}' is taken!!!".format(post.title))
 
 
 class PostForm(FlaskForm):
