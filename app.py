@@ -147,9 +147,9 @@ def not_found(error):
 
 
 @app.route("/entries/tags/{{tag}}")
-def tag(tags=None):
+def tag(tag=None):
     tag = models.Post.select().where(models.Post.tag == tag)
-    return render_template("tags_list.html", tag=tag)
+    return render_template("tags_list.html")
 
 
 if __name__ == "__main__":

@@ -17,6 +17,7 @@
                         {% for tag in tags %}
                         <a href="/entries/tags/{{tag}}">{{  tag  }}</a>
                         {% endfor %}
+
                     </li>
                     <li>
                         <a href="{{ url_for('edit', slug=post.slug) }}">Edit post</a>

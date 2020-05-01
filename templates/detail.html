@@ -15,7 +15,12 @@
             <div class="post-info content-1070 center-relative">
                 <div class="cat-links">
                     <ul>
-                        <li><a href="#">{{ post.tags }}</a></li>
+                        <li>
+                        {% set tags = post.tags.split(', ') %}
+                        {% for tag in tags %}
+                        <a href="/entries/tags/{{tag}}">{{  tag  }}</a>
+                        {% endfor %}
+                        </li>
                     </ul>
                 </div>
                 <div class="entry-date published">{{ post.timestamp.strftime('%Y-%m-%d') }}</div>
