@@ -44,6 +44,7 @@ class Post(Model):
     resources = TextField()
     tags = CharField(default="")
 
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = re.sub("[^\w]+", "-", self.title.lower())
