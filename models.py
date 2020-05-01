@@ -20,7 +20,6 @@ class User(UserMixin, Model):
         database = DATABASE
         order_by = ("-joined_at",)
 
-
     @classmethod
     def create_user(cls, username, email, password, admin=False):
         try:
@@ -47,11 +46,10 @@ class Post(Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            self.slug = re.sub('[^\w]+', '-', self.title.lower())
+            self.slug = re.sub("[^\w]+", "-", self.title.lower())
         ret = super(Post, self).save(*args, **kwargs)
 
         return ret
-
 
     class Meta:
         database = DATABASE

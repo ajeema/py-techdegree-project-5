@@ -1,5 +1,5 @@
 # Credit: https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/ for slug field help.
-from flask import Flask, g, render_template, flash, redirect, url_for, abort
+from flask import Flask, g, render_template, flash, redirect, url_for, abort, request
 from flask_bcrypt import check_password_hash
 from flask_login import (
     LoginManager,
@@ -148,7 +148,8 @@ def not_found(error):
 
 @app.route("/entries/tags/{{tag}}")
 def tag(tags=None):
-    return render_template("tag.html", tags=tags)
+    tag = models.Post.select().where(models.Post.tag == tag)
+    return render_template("tags_list.html", tag=tag)
 
 
 if __name__ == "__main__":
