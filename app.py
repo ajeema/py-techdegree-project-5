@@ -1,5 +1,5 @@
 # Credit: https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/ for slug field help.
-from flask import Flask, g, render_template, flash, redirect, url_for, abort, request
+from flask import Flask, g, render_template, flash, redirect, url_for, abort
 from flask_bcrypt import check_password_hash
 from flask_login import (
     LoginManager,
@@ -91,14 +91,14 @@ def entries():
 def post():
     form = forms.PostForm()
     if form.validate_on_submit():
-        models.Post.create(
+        entry_new = models.Post.create(
             user=g.user.id,
             content=form.content.data.strip(),
             title=form.title.data,
             time_spent=form.time_spent.data,
             resources=form.resources.data,
-            tags=form.tags.data,
         )
+        entry_new.create_and_add_tags(form.tags.data)
         flash("Journal Entry done!", "success")
         return redirect(url_for("index"))
     return render_template("new.html", form=form)
@@ -122,7 +122,14 @@ def edit(slug=None):
     form.time_spent.data = post.time_spent
     form.content.data = post.content
     form.resources.data = post.resources
-    form.tags.data = post.tags
+    post.tags.clear()
+    for tag in form.tags.data:
+        if tag not in [tag for tag in post.tags]:
+            try:
+                tag.save(force_insert = True)
+            except models.IntegrityError:
+                pass  # Tag already exists do not need to create
+            post.tags.add([tag])
     return render_template("edit.html", form=form)
 
 
@@ -150,6 +157,13 @@ def not_found(error):
 def tag(tag=None):
     tag = models.Post.select().where(models.Post.tag == tag)
     return render_template("tags_list.html")
+
+@app.route('/tags/<slug>')
+@login_required
+def tag_entries(slug):
+    """List entries that include a single tag"""
+    tag = models.Tag.get(models.Tag.slug==slug)
+    return render_template('tags_list.html', tag=tag, post=tag.post)
 
 
 if __name__ == "__main__":
