@@ -14,9 +14,8 @@
                 <div class="cat-links">
                     <ul>
                         <li>
-                        {% set tags = post.tags.split(', ') %}
-                        {% for tag in tags %}
-                        <a href="/entries/tags/{{tag}}">{{  tag  }}</a>
+                        {% for tag in post.tags %}
+                        <a href="{{ url_for('tag_entries', slug=tag.slug) }}">{{ tag.name }}</a>
                         {% endfor %}
                         </li>
                 </div>
