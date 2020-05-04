@@ -3,8 +3,7 @@
 {% block content %}
 {% for post in stream %}
 
-<!-- Main Content -->
-<article id="post-3" class="blog-item-holder">
+<article class="blog-item-holder">
     <div class="entry-content relative">
         <div class="content-1170 center-relative">
             <h2 class="entry-title">
@@ -13,12 +12,10 @@
             <div class="cat-links">
                 <ul>
                     <li>
-                {% for tag in post.tags %}
-                    <a href="{{ url_for('tag_entries', slug=tag.slug) }}"><span>{{ tag.name }}</span></a>
-                    <span> / </span>
-                {% endfor %}
-
-
+                        {% for tag in post.tags %}
+                        <a href="{{ url_for('tag_entries', slug=tag.slug) }}"><span>{{ tag.name }}</span></a>
+                        <span> | </span>
+                        {% endfor %}
                     </li>
                     <li>
                         <a href="{{ url_for('edit', slug=post.slug) }}">Edit post</a>
@@ -39,7 +36,6 @@
         </div>
         <h6>{{ post.content |truncate(30) }}</h6>
     </div>
-
 </article>
 {% endfor %}
 {% endblock %}

@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-<h4 style="text-align: center;">Entries that are tagged by <b>{{ tag.name}}</b></h4>
+<h4 style="text-align: center;">Post(s) that contain '<b>{{ tag.name }}</b>' tag:</h4>
 <div class="container">
     <div class="entry-list">
         {% for post in post %}
