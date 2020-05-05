@@ -104,33 +104,28 @@ def post():
     return render_template("new.html", form=form)
 
 
-@app.route("/entries/edit/<slug>", methods=["GET", "POST"])
-def edit(slug=None):
-    post = models.Post.get(models.Post.slug == slug)
-    form = forms.PostForm()
+@app.route('/entries/edit/<slug>', methods=('GET', 'POST'))
+@login_required
+def edit(slug):
+    post = models.Post.select().where(models.Post.slug == slug).get()
+    form = forms.PostForm(obj=post)
     if form.validate_on_submit():
-        models.Post.update(
-            title=form.title.data.strip(),
-            time_spent=form.time_spent.data,
-            content=form.content.data.strip(),
-            resources=form.resources.data.strip(),
-            tags=form.tags.data.strip(),
-        ).where(models.Post.slug == slug).execute()
-        flash("Entry saved!", "success")
-        return redirect(url_for("index"))
-    form.title.data = post.title
-    form.time_spent.data = post.time_spent
-    form.content.data = post.content
-    form.resources.data = post.resources
-    post.tags.clear()
-    for tag in form.tags.data:
-        if tag not in [tag for tag in post.tags]:
-            try:
-                tag.save(force_insert = True)
-            except models.IntegrityError:
-                pass  # Tag already exists do not need to create
-            post.tags.add([tag])
-    return render_template("edit.html", form=form)
+        post.title = form.title.data
+        post.time_spent = form.time_spent.data
+        post.content = form.content.data
+        post.resources = form.resources.data
+        post.tags.clear()
+        for tag in form.tags.data:
+            if tag not in [tag for tag in post.tags]:
+                try:
+                    tag.save(force_insert=True)
+                except models.IntegrityError:
+                    pass # Tag already exists do not need to create
+                post.tags.add([tag])
+        post.save()
+        flash("Entry edited.", 'success')
+        return redirect(url_for('index'))
+    return render_template('edit.html', form=form, entry=post)
 
 
 @app.route("/entries/delete/<slug>")

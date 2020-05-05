@@ -1,22 +1,26 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, IntegerField
-from wtforms.validators import DataRequired, Email, ValidationError
+from wtforms.validators import DataRequired, Email, Regexp
+from wtforms.widgets.core import TextArea
+from wtforms.fields.html5 import DateField
 
 import models
+
 
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired(), Email()])
     password = PasswordField("Password", validators=[DataRequired()])
 
+
 class TagField(StringField):
     def _value(self):
         if self.data:
             # Display tags as a comma-separated list.
-            return ', '.join([tag.name for tag in self.data])
-        return ''
+            return ", ".join([tag.name for tag in self.data])
+        return ""
 
     def get_tags_from_string(self, tag_string):
-        raw_tags = tag_string.split(',')
+        raw_tags = tag_string.split(",")
         tag_names = [name.strip() for name in raw_tags if name.strip()]
         existing_tags = models.Tag.select().where(models.Tag.name.in_(tag_names))
         new_names = set(tag_names) - set([tag.name for tag in existing_tags])
@@ -30,15 +34,10 @@ class TagField(StringField):
             self.data = []
 
 
-def title_exists(form, field):
-    if models.Post.select().where(models.Post.title == field.data).exists():
-        raise ValidationError("That title is already in use.")
-
 
 class PostForm(FlaskForm):
-    title = StringField("Enter Title", validators=[DataRequired(), title_exists])
+    title = StringField("Enter Title", validators=[DataRequired()])
     time_spent = IntegerField("How many Hours?", validators=[DataRequired()])
     content = TextAreaField("Enter text...", validators=[DataRequired()])
     resources = TextAreaField("Resources...", validators=[DataRequired()])
-    tags = TagField('Tags', description="Separate Multiple tags with commans.")
-
+    tags = TagField("ex. tag1, tag2, tag3")
