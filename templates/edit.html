@@ -1,17 +1,48 @@
-<doctype html>
-    <title>Edit Jounral Entry</title>
-    <h2>Edit Entry</h2>
+{% extends 'layout_detail.html' %}
+{% block content %}
+{% from "_formhelpers.html" import render_field %}
+<div class="site-content center-relative" id="content">
+    <div class="single-post-wrapper content-1070 center-relative">
 
-    {% from "_formhelpers.html" import render_field %}
+        <article class="center-relative">
+            <form method=post action="">
+                <dl>
+                    {{ render_field(form.title) }}
+                    {{ render_field(form.time_spent) }}
+                    {{ render_field(form.content) }}
+                    {{ render_field(form.resources) }}
+                    {{ render_field(form.tags) }}
+                </dl>
+                {{ form.csrf_token }}
+                <button type="submit" id="submit">Update!</button>
+            </form>
+        </article>
+    </div>
+</div>
+<style>
+    form label {
+	display: block;
+	margin-bottom: 8px;
+}
 
-    <form method=post action="">
-        <dl>
-            {{ render_field(form.title) }}
-            {{ render_field(form.time_spent) }}
-            {{ render_field(form.content) }}
-            {{ render_field(form.resources) }}
-            {{ render_field(form.tags) }}
-        </dl>
-        {{ form.csrf_token }}
-        <button type="submit" id="submit">Update!</button>
-    </form>
+form textarea {
+	border: 2px solid #e1e1e1;
+	font-size: 16px;
+	line-height: 1.8em;
+	padding:10px 13px;
+	margin-bottom: 30px;
+	border-radius: 4px;
+	width: calc(100% - 32px);
+}
+
+form input {
+	border: 2px solid #e1e1e1;
+	font-size: 16px;
+	line-height: 1.8em;
+	padding:10px 13px;
+	margin-bottom: 30px;
+	border-radius: 4px;
+	width: calc(30% - 32px);
+}
+</style>
+{% endblock %}
