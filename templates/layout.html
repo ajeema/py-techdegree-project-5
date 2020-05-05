@@ -11,10 +11,8 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.png') }}"/>
     <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700%7CLibre+Baskerville:400,400italic,700'
           rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/clear.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/common.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/font-awesome.min.css') }}"/>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/sm-clean.css') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}"/>
 
     <!--[if lt IE 9]>
@@ -25,18 +23,6 @@
 
 
 <body class="home blog">
-
-<!-- Preloader Gif -->
-<table class="doc-loader">
-    <tbody>
-    <tr>
-        <td>
-            <img src="{{ url_for('static', filename='img/ajax-document-loader.gif') }}" alt="Loading...">
-        </td>
-    </tr>
-    </tbody>
-</table>
-
 <!-- Left Sidebar -->
 <div id="sidebar" class="sidebar">
     <div class="menu-left-part">
@@ -69,7 +55,7 @@
     <div class="menu-right-part">
         <div class="logo-holder">
             <a href="{{ url_for('index') }}">
-                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Learning Journal">
+                <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Learning Journal" style="margin-top: -9px;">
             </a>
         </div>
         <div class="toggle-holder">

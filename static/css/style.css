@@ -108,12 +108,16 @@ input, textarea, select
     max-width: 900px;
 }
 
+.content-1440
+{
+    max-width: 1440px;
+}
+
 .content-1070
 {
     max-width: 1070px;
 }
-
-.content-660 img, .content-1070 img, .content-900 img
+.content-660 img, .content-1070 img, .content-900 img, .content-1440 img
 {
     max-width: 100%;
     max-height: 100%;
@@ -2022,4 +2026,5 @@ body.open .site-content
     top: 0;
     right: 0
 }
+
 
