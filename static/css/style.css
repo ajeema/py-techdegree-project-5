@@ -7,9 +7,9 @@ body
 {
     font-family: 'Libre Baskerville',sans-serif, Arial;;
     font-size: 18px; 	
-    line-height: 35px;
+    /*line-height: 35px;*/
     font-weight: 400;	
-    letter-spacing: -1px;
+    /*letter-spacing: -1px;*/
     color: #404040;
     background-color: #fff;
 }
@@ -453,8 +453,8 @@ body.open .site-content
 
 .blog-holder
 {
-    padding-top: 100px;
-    max-width: 470px;
+    padding-top: 30px;
+    max-width: 700px;
     padding-bottom: 85px;
 }
 
@@ -466,14 +466,14 @@ body.open .site-content
 
 .featured-post
 {
-    padding-bottom: 105px;
+    padding-bottom: 10px;
 }
 
 .blog-item-holder.featured-post .entry-content .entry-title
 {
     font-size: 48px;
-    line-height: 50px;  
-    padding-bottom: 40px;
+    line-height: 20px;
+    padding-bottom: 20px;
 }
 
 .blog-item-holder .entry-content .entry-title a
@@ -491,7 +491,7 @@ body.open .site-content
     font-family: 'Montserrat', sans-serif, Arial;
     font-size: 30px;
     line-height: 30px;
-    padding-top: 35px;
+    padding-top: 5px;
     padding-bottom: 0;
 }
 
@@ -504,7 +504,7 @@ body.open .site-content
 
 .read-more
 {
-    background-image: url('images/arrow.png');
+    background-image: url('../img/arrow.png');
     width: 30px;
     height: 30px;
     background-size: 30px;
@@ -563,14 +563,14 @@ body.open .site-content
     font-family: 'Montserrat', sans-serif, Arial;
     display: inline-block;    
     font-size: 16px;
-    text-transform: uppercase;
+    /*text-transform: uppercase;*/
     font-weight: 700;
 }
 
 .cat-links ul li 
 {
     display: inline-block;
-    margin-right: 5px;    
+    margin-right: 1px;
 }
 
 .cat-links ul li a
@@ -581,7 +581,7 @@ body.open .site-content
 
 .cat-links ul li:after 
 {
-    content: ",";
+    content: "-";
 }
 
 .cat-links ul li:last-child:after 
@@ -1395,8 +1395,8 @@ body.open .site-content
     .cat-links 
     {
         display: block;
-        line-height: 22px;
-        margin-top: 10px;
+        line-height: 10px;
+        margin-top: 3px;
     }
 
     .cat-links:first-child 

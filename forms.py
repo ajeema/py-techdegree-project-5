@@ -1,8 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, TextAreaField, IntegerField
-from wtforms.validators import DataRequired, Email, Regexp
-from wtforms.widgets.core import TextArea
-from wtforms.fields.html5 import DateField
+from wtforms.validators import DataRequired, Email
+
 
 import models
 
@@ -15,7 +14,6 @@ class LoginForm(FlaskForm):
 class TagField(StringField):
     def _value(self):
         if self.data:
-            # Display tags as a comma-separated list.
             return ", ".join([tag.name for tag in self.data])
         return ""
 

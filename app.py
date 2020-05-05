@@ -172,5 +172,5 @@ if __name__ == "__main__":
         )
     except ValueError:
         pass
-    app.jinja_env.cache = {}
+    #app.jinja_env.cache = {}
     app.run(debug=DEBUG, host=HOST, port=PORT)
