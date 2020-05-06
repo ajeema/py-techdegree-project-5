@@ -1,5 +1,5 @@
 # Credit: https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/ for slug field help.
-from flask import Flask, g, render_template, flash, redirect, url_for, abort, request
+from flask import Flask, g, render_template, flash, redirect, url_for, abort
 from flask_bcrypt import check_password_hash
 from flask_login import (
     LoginManager,
@@ -9,7 +9,7 @@ from flask_login import (
     current_user,
 )
 
-from flask_sqlalchemy import SQLAlchemy
+
 import forms
 import models
 
@@ -17,7 +17,6 @@ import models
 DEBUG = True
 PORT = 8000
 HOST = "0.0.0.0"
-ENTRIES_PER_PAGE = 3
 
 app = Flask(__name__)
 app.secret_key = "auoesh.bouoastuh.43,uoausoehuosth3ououea.auoub!"
@@ -65,7 +64,7 @@ def login():
                 return redirect(url_for("index"))
             else:
                 flash("Your email or password doesn't match!", "error")
-    return render_template("login.html", form=form)
+    return render_template("account/login.html", form=form)
 
 
 @app.route("/logout")
@@ -84,21 +83,8 @@ def index():
 
 @app.route("/entries")
 def entries():
-    from models import Entry
-    page = request.args.get('page', 1, type = int)
-    entries = Entry.query.order_by(Entry.timestamp.desc()).paginate(
-            page, app['ENTRIES_PER_PAGE'], False)
-    next_url = url_for('explore', page = entries.next_num) \
-        if entries.has_next else None
-    prev_url = url_for('explore', page = entries.prev_num) \
-        if entries.has_prev else None
-    stream = models.Entry.select().limit(3)
-    return render_template("all_entries.html", stream=stream, entries=entries.items,
-                          next_url=next_url, prev_url=prev_url)
-
-
-
-
+    stream = models.Entry.select()
+    return render_template("all_entries.html", stream=stream)
 
 
 @app.route("/new_entry", methods=("GET", "POST"))
@@ -116,14 +102,14 @@ def entry():
         entry_new.create_and_add_tags(form.tags.data)
         flash("Journal Entry done!", "success")
         return redirect(url_for("index"))
-    return render_template("new.html", form=form)
+    return render_template("entries/new.html", form=form)
 
 
-@app.route('/entries/edit/<slug>', methods=('GET', 'POST'))
+@app.route("/entries/edit/<slug>", methods=("GET", "POST"))
 @login_required
 def edit(slug):
     entry = models.Entry.select().where(models.Entry.slug == slug).get()
-    form = forms.EntryForm(obj=entry)
+    form = forms.EditEntryForm(obj=entry)
     if form.validate_on_submit():
         entry.title = form.title.data
         entry.time_spent = form.time_spent.data
@@ -135,12 +121,12 @@ def edit(slug):
                 try:
                     tag.save(force_insert=True)
                 except models.IntegrityError:
-                    pass # Tag already exists do not need to create
+                    pass  # Tag already exists do not need to create
                 entry.tags.add([tag])
         entry.save()
-        flash("Entry edited.", 'success')
-        return redirect(url_for('index'))
-    return render_template('edit.html', form=form, entry=entry)
+        flash("Entry edited.", "success")
+        return redirect(url_for("index"))
+    return render_template("entries/edit.html", form=form, entry=entry)
 
 
 @app.route("/entries/delete/<slug>")
@@ -168,12 +154,13 @@ def tag(tag=None):
     tag = models.Entry.select().where(models.Entry.tag == tag)
     return render_template("tags_list.html")
 
-@app.route('/tags/<slug>')
+
+@app.route("/tags/<slug>")
 @login_required
 def tag_entries(slug):
     """List entries that include a single tag"""
-    tag = models.Tag.get(models.Tag.slug==slug)
-    return render_template('tags_list.html', tag=tag, entry=tag.entry)
+    tag = models.Tag.get(models.Tag.slug == slug)
+    return render_template("entries/tags_list.html", tag=tag, entry=tag.entry)
 
 
 if __name__ == "__main__":
@@ -187,5 +174,5 @@ if __name__ == "__main__":
         )
     except ValueError:
         pass
-    #app.jinja_env.cache = {}
+    app.jinja_env.cache = {}
     app.run(debug=DEBUG, host=HOST, port=PORT)

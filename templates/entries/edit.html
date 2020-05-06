@@ -1,6 +1,6 @@
-{% extends 'layout_detail.html' %}
+{% extends 'layouts/layout_detail.html' %}
 {% block content %}
-{% from "_formhelpers.html" import render_field %}
+{% from "helpers/_formhelpers.html" import render_field %}
 <div class="site-content center-relative" id="content">
     <div class="single-post-wrapper content-1070 center-relative">
 
@@ -14,7 +14,7 @@
                     {{ render_field(form.tags) }}
                 </dl>
                 {{ form.csrf_token }}
-                <button type="submit" id="submit">Submit!</button>
+                <button type="submit" id="submit">Update!</button>
             </form>
         </article>
     </div>

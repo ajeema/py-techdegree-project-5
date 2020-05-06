@@ -1,6 +1,7 @@
 html
 {
     overflow: hidden;
+    margin-left: 120px;
 }
 
 body
@@ -767,7 +768,7 @@ body.open .site-content
 .post-info
 {
     font-family: 'Montserrat', sans-serif, Arial;
-    padding-bottom: 70px;    
+    /*padding-bottom: 70px;    */
 }
 /* END SINGLE POST */
 
@@ -1034,7 +1035,7 @@ body.open .site-content
     .content-1070
     {
         width: 1070px;
-        max-width: 90%;
+        /*max-width: 90%;*/
     }
 
     .blog-holder 
