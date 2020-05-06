@@ -37,7 +37,7 @@
                 <li><a href="{{ url_for('index') }}" class="current">Home</a></li>
                 <li><a href="{{ url_for('entries') }}">Entries</a></li>
                 {% if current_user.is_authenticated() %}
-                <li><a href="{{ url_for('post') }}">New Entry</a></li>
+                <li><a href="{{ url_for('entry') }}">New Entry</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% else %}
                 <li><a href="{{ url_for('login') }}">Login</a></li>
@@ -104,7 +104,7 @@
         <div class="block load-more-holder">
             <a href="{{ url_for('entries') }}">VIEW MORE ENTRIES </a>
             {% if current_user.is_authenticated() %}
-            <a href="{{ url_for('post') }}"> | CREATE NEW ENTRY</a>
+            <a href="{{ url_for('entry') }}"> | CREATE NEW ENTRY</a>
             {% endif %}
         </div>
 

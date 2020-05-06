@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from tag_list_field import TagListField
 
-class Post(FlaskForm):
+class Entry(FlaskForm):
     # other fields
 
     tags = TagListField(

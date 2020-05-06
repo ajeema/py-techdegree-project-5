@@ -32,7 +32,7 @@ class TagField(StringField):
 
 
 
-class PostForm(FlaskForm):
+class EntryForm(FlaskForm):
     title = StringField("Enter Title", validators=[DataRequired()])
     time_spent = IntegerField("How many Hours?", validators=[DataRequired()])
     content = TextAreaField("Enter text...", validators=[DataRequired()])

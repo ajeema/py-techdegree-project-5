@@ -1,5 +1,5 @@
 # Credit: https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/ for slug field help.
-from flask import Flask, g, render_template, flash, redirect, url_for, abort
+from flask import Flask, g, render_template, flash, redirect, url_for, abort, request
 from flask_bcrypt import check_password_hash
 from flask_login import (
     LoginManager,
@@ -9,13 +9,15 @@ from flask_login import (
     current_user,
 )
 
-
+from flask_sqlalchemy import SQLAlchemy
 import forms
 import models
+
 
 DEBUG = True
 PORT = 8000
 HOST = "0.0.0.0"
+ENTRIES_PER_PAGE = 3
 
 app = Flask(__name__)
 app.secret_key = "auoesh.bouoastuh.43,uoausoehuosth3ououea.auoub!"
@@ -76,22 +78,35 @@ def logout():
 
 @app.route("/")
 def index():
-    stream = models.Post.select().limit(4)
+    stream = models.Entry.select().limit(4)
     return render_template("index.html", stream=stream)
 
 
 @app.route("/entries")
 def entries():
-    stream = models.Post.select().limit(3)
-    return render_template("all_entries.html", stream=stream)
+    from models import Entry
+    page = request.args.get('page', 1, type = int)
+    entries = Entry.query.order_by(Entry.timestamp.desc()).paginate(
+            page, app['ENTRIES_PER_PAGE'], False)
+    next_url = url_for('explore', page = entries.next_num) \
+        if entries.has_next else None
+    prev_url = url_for('explore', page = entries.prev_num) \
+        if entries.has_prev else None
+    stream = models.Entry.select().limit(3)
+    return render_template("all_entries.html", stream=stream, entries=entries.items,
+                          next_url=next_url, prev_url=prev_url)
 
 
-@app.route("/new_post", methods=("GET", "POST"))
+
+
+
+
+@app.route("/new_entry", methods=("GET", "POST"))
 @login_required
-def post():
-    form = forms.PostForm()
+def entry():
+    form = forms.EntryForm()
     if form.validate_on_submit():
-        entry_new = models.Post.create(
+        entry_new = models.Entry.create(
             user=g.user.id,
             content=form.content.data.strip(),
             title=form.title.data,
@@ -107,40 +122,40 @@ def post():
 @app.route('/entries/edit/<slug>', methods=('GET', 'POST'))
 @login_required
 def edit(slug):
-    post = models.Post.select().where(models.Post.slug == slug).get()
-    form = forms.PostForm(obj=post)
+    entry = models.Entry.select().where(models.Entry.slug == slug).get()
+    form = forms.EntryForm(obj=entry)
     if form.validate_on_submit():
-        post.title = form.title.data
-        post.time_spent = form.time_spent.data
-        post.content = form.content.data
-        post.resources = form.resources.data
-        post.tags.clear()
+        entry.title = form.title.data
+        entry.time_spent = form.time_spent.data
+        entry.content = form.content.data
+        entry.resources = form.resources.data
+        entry.tags.clear()
         for tag in form.tags.data:
-            if tag not in [tag for tag in post.tags]:
+            if tag not in [tag for tag in entry.tags]:
                 try:
                     tag.save(force_insert=True)
                 except models.IntegrityError:
                     pass # Tag already exists do not need to create
-                post.tags.add([tag])
-        post.save()
+                entry.tags.add([tag])
+        entry.save()
         flash("Entry edited.", 'success')
         return redirect(url_for('index'))
-    return render_template('edit.html', form=form, entry=post)
+    return render_template('edit.html', form=form, entry=entry)
 
 
 @app.route("/entries/delete/<slug>")
 def delete(slug=None):
-    models.Post.get(models.Post.slug == slug).delete_instance()
+    models.Entry.get(models.Entry.slug == slug).delete_instance()
     flash("Deleted!", "success")
     return redirect(url_for("index"))
 
 
-@app.route("/post/<slug>")
-def view_post(slug=None):
-    posts = models.Post.select().where(models.Post.slug == slug)
-    if posts.count() == 0:
+@app.route("/entry/<slug>")
+def view_entry(slug=None):
+    entry = models.Entry.select().where(models.Entry.slug == slug)
+    if entry.count() == 0:
         abort(404)
-    return render_template("detail.html", stream=posts)
+    return render_template("detail.html", stream=entry)
 
 
 @app.errorhandler(404)
@@ -150,7 +165,7 @@ def not_found(error):
 
 @app.route("/entries/tags/{{tag}}")
 def tag(tag=None):
-    tag = models.Post.select().where(models.Post.tag == tag)
+    tag = models.Entry.select().where(models.Entry.tag == tag)
     return render_template("tags_list.html")
 
 @app.route('/tags/<slug>')
@@ -158,7 +173,7 @@ def tag(tag=None):
 def tag_entries(slug):
     """List entries that include a single tag"""
     tag = models.Tag.get(models.Tag.slug==slug)
-    return render_template('tags_list.html', tag=tag, post=tag.post)
+    return render_template('tags_list.html', tag=tag, entry=tag.entry)
 
 
 if __name__ == "__main__":

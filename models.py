@@ -36,7 +36,7 @@ class User(UserMixin, Model):
             raise ValueError("User already exists")
 
 
-class Post(Model):
+class Entry(Model):
     timestamp = DateTimeField(default=datetime.datetime.now)
     user = ForeignKeyField(User, backref="entries")
     content = TextField()
@@ -58,7 +58,7 @@ class Post(Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = re.sub("[^\w]+", "-", self.title.lower())
-        ret = super(Post, self).save(*args, **kwargs)
+        ret = super(Entry, self).save(*args, **kwargs)
 
         return ret
 
@@ -69,7 +69,7 @@ class Post(Model):
 
 class Tag(Model):
     name = CharField(max_length=50, primary_key=True)
-    post = ManyToManyField(Post, backref="tags")
+    entry = ManyToManyField(Entry, backref="tags")
     slug = CharField()
 
     def __init__(self, *args, **kwargs):
@@ -90,6 +90,6 @@ class Tag(Model):
 def initialize():
     DATABASE.connect()
     DATABASE.create_tables(
-        [User, Post, Tag, Tag.post.get_through_model()], safe=True
+        [User, Entry, Tag, Tag.entry.get_through_model()], safe=True
     )
     DATABASE.close()
