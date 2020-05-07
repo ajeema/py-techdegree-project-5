@@ -13,7 +13,8 @@ class LoginForm(FlaskForm):
 
 
 class FormTagField(StringField):
-    """Class to hold and specify a field for tags in formfield so we can store it uniquely"""
+    """Class to hold and specify a field for tags in formfield so we can
+    store it uniquely"""
 
     def _value(self):
         if self.data:
@@ -21,7 +22,8 @@ class FormTagField(StringField):
         return ""
 
     def tags_form_input(self, tag_string):
-        """Taks tag input field that is a comma separate string and splits them"""
+        """Taks tag input field that is a comma separate string
+        and splits them"""
         input_tags = tag_string.split(",")
         tag_label = [name.strip() for name in input_tags if name.strip()]
         tags = models.Tag.select().where(models.Tag.name.in_(tag_label))
@@ -46,7 +48,8 @@ def title_exists(form, field):
 class EntryForm(FlaskForm):
     """Default form to add new entries"""
 
-    title = StringField("Enter Title", validators=[DataRequired(), title_exists])
+    title = StringField("Enter Title",
+                        validators=[DataRequired(), title_exists])
     time_spent = IntegerField("How many Hours?", validators=[DataRequired()])
     content = TextAreaField("Enter text...", validators=[DataRequired()])
     resources = TextAreaField("Resources...", validators=[DataRequired()])

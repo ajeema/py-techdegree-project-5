@@ -1,4 +1,6 @@
-# Credit: https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/ for slug field help.
+# Credit:
+# https://charlesleifer.com/blog/how-to-make-a-flask-blog-in-one-hour-or-less/
+
 from flask import Flask, g, render_template, flash, redirect, url_for, abort
 from flask_bcrypt import check_password_hash
 from flask_login import (
@@ -167,8 +169,8 @@ if __name__ == "__main__":
     models.initialize()
     try:
         models.User.create_user(
-            username="dundermiflin",
-            email="aaron@ajeema.com",
+            username="bossman",
+            email="user@email.com",
             password="password",
             admin=True,
         )
