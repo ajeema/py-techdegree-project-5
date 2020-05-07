@@ -11,21 +11,21 @@
             </h1>
 
             <div class="center-relative">
-             <div class="cat-links">
-                <ul style="border-top-style: solid;margin-top: -40px;">
-                    <li>
-                        {% for tag in entry.tags %}
-                        <a href="{{ url_for('tag_entries', slug=tag.slug) }}"><span>{{ tag.name }}</span></a>
-                        <span> | </span>
-                        {% endfor %}
-                        <div class="entry-date published">{{ entry.timestamp.strftime('%Y-%m-%d') }}</div>
-                    </li>
-                </ul>
-            </div>
+                <div class="cat-links">
+                    <ul style="border-top-style: solid;margin-top: -40px;">
+                        <li>
+                            {% for tag in entry.tags %}
+                            <a href="{{ url_for('tag_entries', slug=tag.slug) }}"><span>{{ tag.name }}</span></a>
+                            <span> | </span>
+                            {% endfor %}
+                            <div class="entry-date published">{{ entry.timestamp.strftime('%Y-%m-%d') }}</div>
+                        </li>
+                    </ul>
+                </div>
                 <div class="entry-date published">{{ entry.date }}</div>
             </div>
         </article>
-{% endfor %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

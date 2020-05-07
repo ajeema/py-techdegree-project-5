@@ -84,7 +84,7 @@ def index():
 @app.route("/entries")
 def entries():
     stream = models.Entry.select()
-    return render_template("all_entries.html", stream=stream)
+    return render_template("entries/all_entries.html", stream=stream)
 
 
 @app.route("/new_entry", methods=("GET", "POST"))
@@ -141,7 +141,7 @@ def view_entry(slug=None):
     entry = models.Entry.select().where(models.Entry.slug == slug)
     if entry.count() == 0:
         abort(404)
-    return render_template("detail.html", stream=entry)
+    return render_template("entries/detail.html", stream=entry)
 
 
 @app.errorhandler(404)
