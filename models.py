@@ -8,7 +8,7 @@ from peewee import *
 from flask_peewee.utils import slugify
 
 
-DATABASE = SqliteDatabase("social.db")
+DATABASE = SqliteDatabase("journal.db")
 
 
 class User(UserMixin, Model):
@@ -89,7 +89,5 @@ class Tag(Model):
 
 def initialize():
     DATABASE.connect()
-    DATABASE.create_tables(
-        [User, Entry, Tag, Tag.entry.get_through_model()], safe=True
-    )
+    DATABASE.create_tables([User, Entry, Tag, Tag.entry.get_through_model()], safe=True)
     DATABASE.close()
